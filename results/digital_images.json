@@ -1,0 +1,99 @@
+{
+ "camera": {
+  "photons": 1000000.0,
+  "read_noise": 30.0,
+  "ambient": 0.2,
+  "ambient_tilt": 0.3,
+  "gain": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "seed": 0
+ },
+ "occluder_corner": [
+  0.475,
+  0.57,
+  0.214
+ ],
+ "scenes": {
+  "astronaut": {
+   "with_occluder_psnr_ssim": [
+    18.72,
+    0.829
+   ],
+   "without_occluder_psnr_ssim": [
+    6.32,
+    0.017
+   ]
+  },
+  "coffee": {
+   "with_occluder_psnr_ssim": [
+    20.63,
+    0.728
+   ],
+   "without_occluder_psnr_ssim": [
+    7.45,
+    0.033
+   ]
+  },
+  "chelsea": {
+   "with_occluder_psnr_ssim": [
+    22.93,
+    0.679
+   ],
+   "without_occluder_psnr_ssim": [
+    7.72,
+    0.015
+   ]
+  },
+  "rocket": {
+   "with_occluder_psnr_ssim": [
+    29.34,
+    0.862
+   ],
+   "without_occluder_psnr_ssim": [
+    10.42,
+    0.075
+   ]
+  },
+  "colorwheel": {
+   "with_occluder_psnr_ssim": [
+    31.02,
+    0.974
+   ],
+   "without_occluder_psnr_ssim": [
+    6.06,
+    0.128
+   ]
+  },
+  "VARJO": {
+   "with_occluder_psnr_ssim": [
+    23.7,
+    0.882
+   ],
+   "without_occluder_psnr_ssim": [
+    16.51,
+    0.332
+   ]
+  }
+ },
+ "astronaut_photon_sweep_psnr_ssim": {
+  "1e+04": [
+   12.53,
+   0.417
+  ],
+  "1e+05": [
+   17.07,
+   0.732
+  ],
+  "1e+06": [
+   18.72,
+   0.829
+  ],
+  "1e+07": [
+   19.46,
+   0.848
+  ]
+ }
+}

@@ -1,0 +1,56 @@
+{
+ "no occluder": {
+  "observable_modes": 8,
+  "mean_psnr": 7.98,
+  "mean_ssim": 0.035,
+  "seconds": 24.4
+ },
+ "paper: 7.5 cm plate on a stand": {
+  "observable_modes": 765,
+  "mean_psnr": 22.9,
+  "mean_ssim": 0.775,
+  "seconds": 29.1
+ },
+ "7.5 cm plate, floating": {
+  "observable_modes": 693,
+  "mean_psnr": 21.94,
+  "mean_ssim": 0.75,
+  "seconds": 27.8
+ },
+ "the stand alone": {
+  "observable_modes": 513,
+  "mean_psnr": 9.9,
+  "mean_ssim": 0.244,
+  "seconds": 23.8
+ },
+ "2 cm speck": {
+  "observable_modes": 659,
+  "mean_psnr": 21.26,
+  "mean_ssim": 0.726,
+  "seconds": 25.1
+ },
+ "15 cm plate": {
+  "observable_modes": 671,
+  "mean_psnr": 20.59,
+  "mean_ssim": 0.673,
+  "seconds": 23.1
+ },
+ "15 cm random mask (8x8, half open)": {
+  "observable_modes": 946,
+  "mean_psnr": 26.75,
+  "mean_ssim": 0.901,
+  "seconds": 31.9
+ },
+ "vertical edge (door frame)": {
+  "observable_modes": 95,
+  "mean_psnr": 11.98,
+  "mean_ssim": 0.158,
+  "seconds": 23.2
+ },
+ "2 cm pinhole in a 40 cm plate": {
+  "observable_modes": 760,
+  "mean_psnr": 23.68,
+  "mean_ssim": 0.805,
+  "seconds": 30.9
+ }
+}

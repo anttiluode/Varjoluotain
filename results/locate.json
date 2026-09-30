@@ -1,0 +1,116 @@
+{
+ "truth_corner": [
+  0.475,
+  0.57,
+  0.214
+ ],
+ "found_corner": [
+  0.4751,
+  0.569,
+  0.2139
+ ],
+ "error_mm": [
+  0.1,
+  -1.0,
+  -0.1
+ ],
+ "funnel_seconds": 229.4,
+ "hypotheses_tested": 7390,
+ "exhaustive_at_final_resolution": {
+  "hypotheses": 2660931,
+  "estimated_days": 27.0
+ },
+ "residue_rms": {
+  "hypothesis: 6 cm nearer the screen": 1725.6,
+  "hypothesis: 2 cm to the side": 4873.7,
+  "located occluder": 684.1
+ },
+ "noise_sigma_electrons": [
+  735.0,
+  664.9,
+  647.9
+ ],
+ "reconstruction_psnr_with_located_occluder": 18.27,
+ "funnel": [
+  {
+   "level": 1,
+   "model": "6x8 patches, 21x21 wall, 2x2 sources",
+   "step_u_v_y": [
+    0.02,
+    0.02,
+    0.03
+   ],
+   "tested": 6292,
+   "kept": 11,
+   "refuted": 6281,
+   "seconds": 22.5,
+   "ms_per_hypothesis": 3.6,
+   "best_corner": [
+    0.4691,
+    0.58,
+    0.219
+   ],
+   "truth_still_covered": true
+  },
+  {
+   "level": 2,
+   "model": "6x8 patches, 42x42 wall, 3x3 sources",
+   "step_u_v_y": [
+    0.01,
+    0.01,
+    0.015
+   ],
+   "tested": 183,
+   "kept": 58,
+   "refuted": 125,
+   "seconds": 2.1,
+   "ms_per_hypothesis": 11.3,
+   "best_corner": [
+    0.4807,
+    0.58,
+    0.219
+   ],
+   "truth_still_covered": true
+  },
+  {
+   "level": 3,
+   "model": "12x15 patches, 42x42 wall, 3x3 sources",
+   "step_u_v_y": [
+    0.005,
+    0.005,
+    0.0075
+   ],
+   "tested": 766,
+   "kept": 6,
+   "refuted": 760,
+   "seconds": 74.4,
+   "ms_per_hypothesis": 97.2,
+   "best_corner": [
+    0.474,
+    0.5725,
+    0.2165
+   ],
+   "truth_still_covered": true
+  },
+  {
+   "level": 4,
+   "model": "29x36 patches, 63x63 wall, 4x4 sources",
+   "step_u_v_y": [
+    0.0025,
+    0.0025,
+    0.004
+   ],
+   "tested": 149,
+   "kept": 1,
+   "refuted": 148,
+   "seconds": 130.4,
+   "ms_per_hypothesis": 875.2,
+   "best_corner": [
+    0.4751,
+    0.569,
+    0.2139
+   ],
+   "truth_still_covered": true
+  }
+ ]
+}

@@ -1,0 +1,38 @@
+{
+ "bu": {
+  "published_occluder": [
+   0.4733,
+   0.5661,
+   0.2072
+  ],
+  "corr_published_occluder": 0.643,
+  "seconds": 7.2
+ },
+ "mushroom": {
+  "published_occluder": [
+   0.4583,
+   0.5408,
+   0.2026
+  ],
+  "corr_published_occluder": 0.382,
+  "seconds": 7.2
+ },
+ "tommy": {
+  "published_occluder": [
+   0.4569,
+   0.5744,
+   0.208
+  ],
+  "corr_published_occluder": 0.459,
+  "seconds": 8.2
+ },
+ "rgb": {
+  "published_occluder": [
+   0.4693,
+   0.5629,
+   0.208
+  ],
+  "corr_published_occluder": 0.672,
+  "seconds": 7.3
+ }
+}

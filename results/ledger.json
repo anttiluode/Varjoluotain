@@ -1,0 +1,28 @@
+{
+ "with occluder": {
+  "observable_modes": 750,
+  "of_modes": 1044,
+  "twin_photo_difference_over_noise": 0.0086,
+  "twin_pixels_outside_0_1": 0.051,
+  "mean_observability": 0.368,
+  "share_of_scene_energy_the_photo_decides": {
+   "astronaut": 0.981,
+   "coffee": 0.985,
+   "chelsea": 0.966,
+   "rocket": 0.992
+  }
+ },
+ "no occluder": {
+  "observable_modes": 8,
+  "of_modes": 1044,
+  "twin_photo_difference_over_noise": 0.0096,
+  "twin_pixels_outside_0_1": 0.026,
+  "mean_observability": 0.005,
+  "share_of_scene_energy_the_photo_decides": {
+   "astronaut": 0.233,
+   "coffee": 0.415,
+   "chelsea": 0.188,
+   "rocket": 0.631
+  }
+ }
+}

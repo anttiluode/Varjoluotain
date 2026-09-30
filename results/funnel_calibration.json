@@ -1,0 +1,292 @@
+{
+ "truth_corner": [
+  0.475,
+  0.57,
+  0.214
+ ],
+ "photons": 1000000.0,
+ "scenes": {
+  "astronaut": {
+   "ledger": [
+    {
+     "level": 1,
+     "model": "6x8 patches, 21x21 wall, 2x2 sources",
+     "step_u_v_y": [
+      0.02,
+      0.02,
+      0.03
+     ],
+     "tested": 6292,
+     "kept": 11,
+     "refuted": 6281,
+     "seconds": 22.2,
+     "ms_per_hypothesis": 3.5,
+     "best_corner": [
+      0.4691,
+      0.58,
+      0.219
+     ],
+     "truth_still_covered": true
+    },
+    {
+     "level": 2,
+     "model": "6x8 patches, 42x42 wall, 3x3 sources",
+     "step_u_v_y": [
+      0.01,
+      0.01,
+      0.015
+     ],
+     "tested": 183,
+     "kept": 58,
+     "refuted": 125,
+     "seconds": 2.1,
+     "ms_per_hypothesis": 11.5,
+     "best_corner": [
+      0.4807,
+      0.58,
+      0.219
+     ],
+     "truth_still_covered": true
+    },
+    {
+     "level": 3,
+     "model": "12x15 patches, 42x42 wall, 3x3 sources",
+     "step_u_v_y": [
+      0.005,
+      0.005,
+      0.0075
+     ],
+     "tested": 766,
+     "kept": 6,
+     "refuted": 760,
+     "seconds": 76.2,
+     "ms_per_hypothesis": 99.4,
+     "best_corner": [
+      0.474,
+      0.5725,
+      0.2165
+     ],
+     "truth_still_covered": true
+    },
+    {
+     "level": 4,
+     "model": "29x36 patches, 63x63 wall, 4x4 sources",
+     "step_u_v_y": [
+      0.0025,
+      0.0025,
+      0.004
+     ],
+     "tested": 149,
+     "kept": 1,
+     "refuted": 148,
+     "seconds": 127.2,
+     "ms_per_hypothesis": 853.6,
+     "best_corner": [
+      0.4751,
+      0.569,
+      0.2139
+     ],
+     "truth_still_covered": true
+    }
+   ],
+   "final": [
+    0.475128467839806,
+    0.5690000000000002,
+    0.21390159388273658
+   ],
+   "error_mm": [
+    0.1284678398060235,
+    0.9999999999997788,
+    0.09840611726341653
+   ]
+  },
+  "coffee": {
+   "ledger": [
+    {
+     "level": 1,
+     "model": "6x8 patches, 21x21 wall, 2x2 sources",
+     "step_u_v_y": [
+      0.02,
+      0.02,
+      0.03
+     ],
+     "tested": 6292,
+     "kept": 5,
+     "refuted": 6287,
+     "seconds": 29.7,
+     "ms_per_hypothesis": 4.7,
+     "best_corner": [
+      0.4807,
+      0.58,
+      0.219
+     ],
+     "truth_still_covered": true
+    },
+    {
+     "level": 2,
+     "model": "6x8 patches, 42x42 wall, 3x3 sources",
+     "step_u_v_y": [
+      0.01,
+      0.01,
+      0.015
+     ],
+     "tested": 99,
+     "kept": 22,
+     "refuted": 77,
+     "seconds": 1.6,
+     "ms_per_hypothesis": 15.7,
+     "best_corner": [
+      0.4807,
+      0.58,
+      0.2132
+     ],
+     "truth_still_covered": true
+    },
+    {
+     "level": 3,
+     "model": "12x15 patches, 42x42 wall, 3x3 sources",
+     "step_u_v_y": [
+      0.005,
+      0.005,
+      0.0075
+     ],
+     "tested": 345,
+     "kept": 6,
+     "refuted": 339,
+     "seconds": 44.4,
+     "ms_per_hypothesis": 128.7,
+     "best_corner": [
+      0.4759,
+      0.565,
+      0.2141
+     ],
+     "truth_still_covered": true
+    },
+    {
+     "level": 4,
+     "model": "29x36 patches, 63x63 wall, 4x4 sources",
+     "step_u_v_y": [
+      0.0025,
+      0.0025,
+      0.004
+     ],
+     "tested": 151,
+     "kept": 1,
+     "refuted": 150,
+     "seconds": 435.1,
+     "ms_per_hypothesis": 2881.5,
+     "best_corner": [
+      0.4751,
+      0.569,
+      0.2139
+     ],
+     "truth_still_covered": true
+    }
+   ],
+   "final": [
+    0.475128467839806,
+    0.5690000000000002,
+    0.21390159388273658
+   ],
+   "error_mm": [
+    0.1284678398060235,
+    0.9999999999997788,
+    0.09840611726341653
+   ]
+  },
+  "rocket": {
+   "ledger": [
+    {
+     "level": 1,
+     "model": "6x8 patches, 21x21 wall, 2x2 sources",
+     "step_u_v_y": [
+      0.02,
+      0.02,
+      0.03
+     ],
+     "tested": 6292,
+     "kept": 5,
+     "refuted": 6287,
+     "seconds": 22.3,
+     "ms_per_hypothesis": 3.6,
+     "best_corner": [
+      0.4691,
+      0.58,
+      0.219
+     ],
+     "truth_still_covered": true
+    },
+    {
+     "level": 2,
+     "model": "6x8 patches, 42x42 wall, 3x3 sources",
+     "step_u_v_y": [
+      0.01,
+      0.01,
+      0.015
+     ],
+     "tested": 99,
+     "kept": 49,
+     "refuted": 50,
+     "seconds": 1.0,
+     "ms_per_hypothesis": 10.3,
+     "best_corner": [
+      0.4807,
+      0.58,
+      0.219
+     ],
+     "truth_still_covered": true
+    },
+    {
+     "level": 3,
+     "model": "12x15 patches, 42x42 wall, 3x3 sources",
+     "step_u_v_y": [
+      0.005,
+      0.005,
+      0.0075
+     ],
+     "tested": 625,
+     "kept": 6,
+     "refuted": 619,
+     "seconds": 60.4,
+     "ms_per_hypothesis": 96.6,
+     "best_corner": [
+      0.4674,
+      0.565,
+      0.2141
+     ],
+     "truth_still_covered": true
+    },
+    {
+     "level": 4,
+     "model": "29x36 patches, 63x63 wall, 4x4 sources",
+     "step_u_v_y": [
+      0.0025,
+      0.0025,
+      0.004
+     ],
+     "tested": 143,
+     "kept": 1,
+     "refuted": 142,
+     "seconds": 884.1,
+     "ms_per_hypothesis": 6182.4,
+     "best_corner": [
+      0.4751,
+      0.569,
+      0.2139
+     ],
+     "truth_still_covered": true
+    }
+   ],
+   "final": [
+    0.475128467839806,
+    0.5690000000000002,
+    0.21390159388273658
+   ],
+   "error_mm": [
+    0.1284678398060235,
+    0.9999999999997788,
+    0.09840611726341653
+   ]
+  }
+ }
+}

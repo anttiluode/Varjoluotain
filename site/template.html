@@ -1,0 +1,502 @@
+<title>Varjoluotain</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: a lab bench. Four instruments in the order the light travels:
+   hidden screen -> room -> photo of the wall -> what we read back. */
+:root {
+  --bg: #e6e9ec;          /* matte plaster */
+  --panel: #f4f5f6;
+  --ink: #16202b;
+  --muted: #56616e;
+  --rule: #c8cfd7;
+  --glow: #b86e06;        /* light from the hidden screen */
+  --glow-soft: #f1ddbb;
+  --shade: #26303c;       /* the occluder, the umbra */
+  --good: #2c7a4b;
+  --font-display: "Big Shoulders Display", "Arial Narrow", "Roboto Condensed", sans-serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e1217; --panel: #151a21; --ink: #dde3ea; --muted: #8f9aa7; --rule: #29313c;
+    --glow: #f0a43a; --glow-soft: #3b2a12; --shade: #6f7d8e; --good: #62c08a; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e1217; --panel: #151a21; --ink: #dde3ea; --muted: #8f9aa7; --rule: #29313c;
+  --glow: #f0a43a; --glow-soft: #3b2a12; --shade: #6f7d8e; --good: #62c08a; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.55; }
+.page { max-width: 1180px; margin: 0 auto; padding-inline: 20px; padding-block: 28px 40px; display: grid; gap: 26px; }
+header.top { display: grid; gap: 8px; max-width: 70ch; }
+.eyebrow { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--glow); margin: 0; }
+h1 { font-family: var(--font-display); font-weight: 800; font-size: clamp(44px, 8vw, 76px); line-height: 0.95; letter-spacing: 0.01em; margin: 0; text-wrap: balance; }
+.lede { margin: 0; color: var(--muted); font-size: 16px; max-width: 64ch; }
+.bench { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+@media (max-width: 980px) { .bench { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .bench { grid-template-columns: minmax(0, 1fr); } }
+.inst { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 14px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.inst h2 { font-family: var(--font-mono); font-weight: 500; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; margin: 0; display: flex; justify-content: space-between; gap: 8px; }
+.inst h2 .step { color: var(--glow); }
+.frame { position: relative; background: var(--shade); border-radius: 3px; overflow: hidden; }
+.frame canvas { display: block; width: 100%; height: auto; image-rendering: pixelated; image-rendering: crisp-edges; }
+#room { image-rendering: auto; background: var(--panel); touch-action: none; cursor: grab; }
+#room.dragging { cursor: grabbing; }
+.cap { font-size: 12.5px; color: var(--muted); margin: 0; }
+.num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+button, .file { font: 500 12.5px var(--font-body); color: var(--ink); background: var(--bg); border: 1px solid var(--rule); border-radius: 999px; padding: 4px 10px; cursor: pointer; }
+button:hover, .file:hover { border-color: var(--glow); }
+button[aria-pressed="true"] { background: var(--glow-soft); border-color: var(--glow); }
+button:focus-visible, input:focus-visible, .file:focus-within { outline: 2px solid var(--glow); outline-offset: 2px; }
+.file input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.file { position: relative; display: inline-block; }
+.controls { display: grid; gap: 8px; }
+.ctl { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 10px; align-items: center; font-size: 13px; }
+.ctl input[type="range"] { grid-column: 1 / -1; width: 100%; accent-color: var(--glow); }
+.ctl output { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 12.5px; color: var(--muted); }
+.check { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+.check input { accent-color: var(--glow); }
+.readout { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.big { font-family: var(--font-display); font-weight: 700; font-size: 34px; line-height: 1; }
+.status { font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+.strip { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 14px; }
+@media (max-width: 760px) { .strip { grid-template-columns: minmax(0, 1fr); } }
+.card { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 16px; display: grid; gap: 12px; min-width: 0; }
+.card h3 { font-family: var(--font-mono); font-weight: 500; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; margin: 0; color: var(--muted); }
+.bars { display: grid; gap: 10px; }
+.bar { display: grid; grid-template-columns: 130px minmax(0, 1fr) 70px; gap: 10px; align-items: center; font-size: 13px; }
+.track { height: 10px; background: var(--bg); border: 1px solid var(--rule); border-radius: 999px; overflow: hidden; }
+.fill { height: 100%; background: var(--glow); width: 0; }
+.fill.off { background: var(--shade); }
+.note { font-size: 13.5px; color: var(--muted); margin: 0; max-width: 62ch; }
+footer { font-size: 12.5px; color: var(--muted); border-top: 1px solid var(--rule); padding-top: 14px; display: grid; gap: 4px; }
+footer a { color: var(--ink); }
+@media (max-width: 560px) { .bar { grid-template-columns: 96px minmax(0, 1fr) 56px; } }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="page">
+  <header class="top">
+    <p class="eyebrow">Computational periscopy · one photo · one shadow</p>
+    <h1>Varjoluotain</h1>
+    <p class="lede">A camera sees only a blank wall. Around the corner a screen lights that wall, and a 7.5&nbsp;cm plate halfway between them casts a soft shadow. From one photo of the wall, this page reads the screen back. Drag the plate, change the picture, or take the plate away.</p>
+  </header>
+
+  <section class="bench" aria-label="The experiment">
+    <article class="inst">
+      <h2><span>Hidden screen</span><span class="step">1</span></h2>
+      <div class="frame"><canvas id="scene" width="24" height="18" aria-label="The picture on the hidden screen"></canvas></div>
+      <div class="chips" role="group" aria-label="Pictures">
+        <button type="button" data-preset="astronaut" id="p-astronaut">Astronaut</button>
+        <button type="button" data-preset="coffee" id="p-coffee">Coffee</button>
+        <button type="button" data-preset="chelsea" id="p-chelsea">Cat</button>
+        <button type="button" data-preset="rocket" id="p-rocket">Rocket</button>
+        <button type="button" data-preset="varjo" id="p-varjo">VARJO</button>
+        <button type="button" data-preset="bars" id="p-bars">Colour bars</button>
+      </div>
+      <div class="chips">
+        <button type="button" id="draw" aria-pressed="false">Draw</button>
+        <button type="button" id="clear">Clear</button>
+        <label class="file">Your image<input type="file" id="upload" accept="image/*"></label>
+      </div>
+      <p class="cap">24 × 18 patches on a 41 × 32 cm screen. The camera never sees it.</p>
+    </article>
+
+    <article class="inst">
+      <h2><span>The room</span><span class="step">2</span></h2>
+      <div class="frame"><canvas id="room" width="480" height="420" aria-label="Side view and view from above; drag the plate"></canvas></div>
+      <div class="controls">
+        <div class="ctl"><label for="oy">Plate distance from the screen</label><output id="oy-v" class="num"></output>
+          <input type="range" id="oy" min="0.30" max="0.90" step="0.005" value="0.570"></div>
+        <div class="ctl"><label for="ox">Plate left–right</label><output id="ox-v" class="num"></output>
+          <input type="range" id="ox" min="0.30" max="0.70" step="0.0025" value="0.475"></div>
+        <div class="ctl"><label for="oz">Plate height</label><output id="oz-v" class="num"></output>
+          <input type="range" id="oz" min="0.05" max="0.36" step="0.0025" value="0.214"></div>
+        <label class="check"><input type="checkbox" id="occ-on" checked> Plate in the room</label>
+      </div>
+    </article>
+
+    <article class="inst">
+      <h2><span>Photo of the wall</span><span class="step">3</span></h2>
+      <div class="frame"><canvas id="photo" width="42" height="42" aria-label="The camera's photo of the wall"></canvas></div>
+      <label class="check"><input type="checkbox" id="detail"> Show only the shadow detail</label>
+      <div class="controls">
+        <div class="ctl"><label for="light">Light at the brightest pixel</label><output id="light-v" class="num"></output>
+          <input type="range" id="light" min="3" max="7.5" step="0.25" value="6"></div>
+      </div>
+      <p class="cap">A 43.7 cm patch of wall, 1.03 m from the screen, with room light and photon noise.</p>
+    </article>
+
+    <article class="inst">
+      <h2><span>Read back</span><span class="step">4</span></h2>
+      <div class="frame"><canvas id="recon" width="24" height="18" aria-label="The screen reconstructed from the photo"></canvas></div>
+      <div class="readout"><span class="big num" id="psnr">–</span><span class="status" id="status">starting</span></div>
+      <div class="controls">
+        <div class="ctl"><label for="smooth">Smoothing</label><output id="smooth-v" class="num"></output>
+          <input type="range" id="smooth" min="-5.5" max="-2.5" step="0.25" value="-4"></div>
+      </div>
+      <p class="cap">Peak signal-to-noise ratio against the hidden picture. Higher is closer.</p>
+    </article>
+  </section>
+
+  <section class="strip">
+    <div class="card">
+      <h3>What one photo decides</h3>
+      <div class="bars">
+        <div class="bar"><span>With the plate</span><div class="track"><div class="fill" id="bar-on"></div></div><span class="num" id="n-on">…</span></div>
+        <div class="bar"><span>Without it</span><div class="track"><div class="fill off" id="bar-off"></div></div><span class="num" id="n-off">…</span></div>
+      </div>
+      <p class="note">Of the 432 independent ways the screen can change, these many move the photo by more than the camera's noise. The rest are invisible: two screens that differ only there give the same photo, and the reconstruction fills them in from its smoothness prior.</p>
+    </div>
+    <div class="card">
+      <h3>Why a shadow helps</h3>
+      <p class="note">Without the plate, every patch of the screen lights the wall with the same broad glow, so their contributions blur into each other. The plate's shadow edge lands on a different part of the wall for each patch. Each patch leaves its own fingerprint, and the photo can tell them apart. The plate is a probe, the same idea as the small test tables in Luotain.</p>
+    </div>
+  </section>
+
+  <footer>
+    <span>Physics and method: Saunders, Murray-Bruce &amp; Goyal, “Computational periscopy with an ordinary digital camera”, <a href="https://www.nature.com/articles/s41586-019-0868-6" target="_blank" rel="noopener">Nature 565, 472 (2019)</a>. Geometry from their <a href="https://github.com/Computational-Periscopy/Ordinary-Camera" target="_blank" rel="noopener">published setup</a>.</span>
+    <span>Pictures via scikit-image: astronaut (NASA) and rocket (SpaceX), public domain; coffee (Rachel Michetti) and cat (Stefan van der Walt), CC0.</span>
+  </footer>
+</div>
+
+<script>
+/*CORE*/
+</script>
+<script>
+const PRESETS = /*PRESETS*/;
+(() => {
+  const { ROWS, COLS, P, N, M } = VJ;
+  const $ = (id) => document.getElementById(id);
+  const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  const state = {
+    scene: new Float64Array(P * 3), occ: { x: 0.475, y: 0.570, z: 0.214, on: true, stand: true },
+    photons: 1e6, lamRel: 1e-4, detail: false, seed: 7, draw: false,
+    A: null, At: null, G: null, L: 0, photo: null, recon: null, k: 0, A0: null, white0: 1,
+  };
+
+  // ---------------------------------------------------------------- scenes
+  function loadPreset(name) {
+    const s = state.scene;
+    if (PRESETS[name]) {
+      const raw = atob(PRESETS[name]);
+      for (let t = 0; t < P * 3; t++) s[t] = raw.charCodeAt(t) / 255;
+    } else if (name === "bars") {
+      const cols = [[0.95, 0.1, 0.1], [0.1, 0.85, 0.2], [0.15, 0.3, 0.95], [0.95, 0.85, 0.1]];
+      for (let i = 0; i < ROWS; i++) for (let j = 0; j < COLS; j++) {
+        const band = Math.floor(j / 6), on = j % 6 >= 1 && j % 6 <= 4;
+        for (let c = 0; c < 3; c++) s[(i * COLS + j) * 3 + c] = on ? cols[band][c] : 0.02;
+      }
+    } else if (name === "varjo") {
+      const cv = document.createElement("canvas"); cv.width = COLS * 8; cv.height = ROWS * 8;
+      const g = cv.getContext("2d");
+      g.fillStyle = "#000"; g.fillRect(0, 0, cv.width, cv.height);
+      g.fillStyle = "#fff"; g.textAlign = "center"; g.textBaseline = "middle";
+      g.font = "800 72px " + css("--font-display");
+      g.fillText("VARJO", cv.width / 2, cv.height / 2 + 4);
+      const small = document.createElement("canvas"); small.width = COLS; small.height = ROWS;
+      const sg = small.getContext("2d"); sg.imageSmoothingEnabled = true; sg.drawImage(cv, 0, 0, COLS, ROWS);
+      const d = sg.getImageData(0, 0, COLS, ROWS).data;
+      for (let p = 0; p < P; p++) { const v = d[p * 4] / 255; s[p * 3] = v; s[p * 3 + 1] = 0.82 * v; s[p * 3 + 2] = 0.25 * v; }
+    }
+    document.querySelectorAll("[data-preset]").forEach(b => b.setAttribute("aria-pressed", b.dataset.preset === name ? "true" : "false"));
+  }
+
+  function drawImage(canvas, rgb, w, h, map) {
+    const g = canvas.getContext("2d"), img = g.createImageData(w, h);
+    for (let t = 0; t < w * h; t++) {
+      for (let c = 0; c < 3; c++) img.data[t * 4 + c] = Math.max(0, Math.min(255, Math.round(255 * map(rgb[t * 3 + c]))));
+      img.data[t * 4 + 3] = 255;
+    }
+    g.putImageData(img, 0, 0);
+  }
+  const renderScene = () => drawImage($("scene"), state.scene, COLS, ROWS, v => v);
+
+  // ------------------------------------------------------------------ room
+  const room = $("room");
+  const VIEW = { y0: -0.06, y1: 1.12 };
+  function layout() {
+    const w = room.width, h = room.height, pad = 26 * (w / 480);
+    const half = h / 2;
+    return {
+      w, h, pad, half,
+      Y: (y) => pad + (y - VIEW.y0) / (VIEW.y1 - VIEW.y0) * (w - 2 * pad),
+      yInv: (px) => VIEW.y0 + (px - pad) / (w - 2 * pad) * (VIEW.y1 - VIEW.y0),
+      Zs: (z) => half - pad * 0.6 - z / 0.56 * (half - pad * 1.6),       // side view, z up
+      zInv: (py) => (half - pad * 0.6 - py) / (half - pad * 1.6) * 0.56,
+      Xt: (x) => half + pad * 0.9 + x / 1.0 * (half - pad * 1.9),         // from above, x down
+      xInv: (py) => (py - half - pad * 0.9) / (half - pad * 1.9),
+    };
+  }
+  function renderRoom() {
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    const cssW = room.clientWidth || 300;
+    const want = Math.round(cssW * dpr);
+    if (room.width !== want) { room.width = want; room.height = Math.round(want * 420 / 480); }
+    const g = room.getContext("2d"), L = layout(), s = room.width / 480;
+    const ink = css("--ink"), muted = css("--muted"), rule = css("--rule"), glow = css("--glow"), shade = css("--shade"), panel = css("--panel");
+    g.fillStyle = panel; g.fillRect(0, 0, L.w, L.h);
+    g.font = `${11 * s}px ${css("--font-mono")}`; g.fillStyle = muted; g.textBaseline = "top";
+    g.fillText("SIDE VIEW", L.pad, 6 * s); g.fillText("FROM ABOVE", L.pad, L.half + 6 * s);
+    g.strokeStyle = rule; g.lineWidth = 1 * s;
+    g.beginPath(); g.moveTo(0, L.half); g.lineTo(L.w, L.half); g.stroke();
+    // floor
+    g.beginPath(); g.moveTo(L.Y(VIEW.y0), L.Zs(0)); g.lineTo(L.Y(VIEW.y1), L.Zs(0)); g.stroke();
+    const o = state.occ, pl = VJ.PLATE;
+    // rays from the screen's extremes past the plate's edges (side view)
+    if (o.on) {
+      g.strokeStyle = glow; g.globalAlpha = 0.35; g.lineWidth = 1 * s;
+      for (const sz of [VJ.SZ0, VJ.SZ1]) for (const pz of [o.z, o.z + pl]) {
+        const t = VJ.D / o.y, wz = sz + (pz - sz) * t;
+        g.beginPath(); g.moveTo(L.Y(0), L.Zs(sz)); g.lineTo(L.Y(VJ.D), L.Zs(wz)); g.stroke();
+      }
+      for (const sx of [VJ.SX0, VJ.SX1]) for (const px of [o.x, o.x + pl]) {
+        const t = VJ.D / o.y, wx = sx + (px - sx) * t;
+        g.beginPath(); g.moveTo(L.Y(0), L.Xt(sx)); g.lineTo(L.Y(VJ.D), L.Xt(wx)); g.stroke();
+      }
+      g.globalAlpha = 1;
+    }
+    // screen
+    g.lineWidth = 5 * s; g.strokeStyle = glow;
+    g.beginPath(); g.moveTo(L.Y(0), L.Zs(VJ.SZ0)); g.lineTo(L.Y(0), L.Zs(VJ.SZ1)); g.stroke();
+    g.beginPath(); g.moveTo(L.Y(0), L.Xt(VJ.SX0)); g.lineTo(L.Y(0), L.Xt(VJ.SX1)); g.stroke();
+    // wall and the camera's field of view on it
+    g.lineWidth = 2 * s; g.strokeStyle = muted;
+    g.beginPath(); g.moveTo(L.Y(VJ.D), L.Zs(0)); g.lineTo(L.Y(VJ.D), L.Zs(0.56)); g.stroke();
+    g.beginPath(); g.moveTo(L.Y(VJ.D), L.Xt(0)); g.lineTo(L.Y(VJ.D), L.Xt(1.0)); g.stroke();
+    g.lineWidth = 5 * s; g.strokeStyle = ink;
+    g.beginPath(); g.moveTo(L.Y(VJ.D), L.Zs(VJ.WZ0)); g.lineTo(L.Y(VJ.D), L.Zs(VJ.WZ0 + VJ.WW)); g.stroke();
+    g.beginPath(); g.moveTo(L.Y(VJ.D), L.Xt(VJ.WX0)); g.lineTo(L.Y(VJ.D), L.Xt(VJ.WX0 + VJ.WW)); g.stroke();
+    // camera (from above): looks at its patch of wall, sees nothing of the screen
+    const camY = 0.30, camX = 0.93;
+    g.strokeStyle = muted; g.setLineDash([4 * s, 4 * s]); g.lineWidth = 1 * s;
+    for (const wx of [VJ.WX0, VJ.WX0 + VJ.WW]) { g.beginPath(); g.moveTo(L.Y(camY), L.Xt(camX)); g.lineTo(L.Y(VJ.D), L.Xt(wx)); g.stroke(); }
+    g.setLineDash([]); g.fillStyle = ink;
+    g.fillRect(L.Y(camY) - 7 * s, L.Xt(camX) - 5 * s, 14 * s, 10 * s);
+    // plate
+    if (o.on) {
+      g.lineWidth = 6 * s; g.strokeStyle = shade; g.lineCap = "butt";
+      g.beginPath(); g.moveTo(L.Y(o.y), L.Zs(o.z)); g.lineTo(L.Y(o.y), L.Zs(o.z + pl)); g.stroke();
+      g.beginPath(); g.moveTo(L.Y(o.y), L.Xt(o.x)); g.lineTo(L.Y(o.y), L.Xt(o.x + pl)); g.stroke();
+      g.lineWidth = 1.5 * s; g.beginPath(); g.moveTo(L.Y(o.y), L.Zs(0)); g.lineTo(L.Y(o.y), L.Zs(o.z)); g.stroke();
+    }
+    // labels
+    g.fillStyle = muted; g.textBaseline = "bottom";
+    g.fillText("screen", L.Y(0) + 6 * s, L.Zs(VJ.SZ1) - 2 * s);
+    g.fillText("wall", L.Y(VJ.D) - 34 * s, L.Zs(0.56) + 14 * s);
+    g.fillText("camera", L.Y(camY) - 20 * s, L.Xt(camX) - 8 * s);
+    // scale bar: 20 cm
+    const x0 = L.Y(0.05), x1 = L.Y(0.25), yb = L.h - 10 * s;
+    g.strokeStyle = muted; g.lineWidth = 1 * s;
+    g.beginPath(); g.moveTo(x0, yb); g.lineTo(x1, yb); g.moveTo(x0, yb - 4 * s); g.lineTo(x0, yb); g.moveTo(x1, yb - 4 * s); g.lineTo(x1, yb); g.stroke();
+    g.fillText("20 cm", x1 + 6 * s, yb + 4 * s);
+  }
+
+  // drag the plate in either view
+  let drag = null;
+  room.addEventListener("pointerdown", (ev) => {
+    if (!state.occ.on) return;
+    const r = room.getBoundingClientRect(), s = room.width / r.width;
+    const px = (ev.clientX - r.left) * s, py = (ev.clientY - r.top) * s, L = layout(), o = state.occ;
+    const near = Math.abs(px - L.Y(o.y)) < 16 * room.width / 480;
+    if (!near) return;
+    drag = py < L.half ? "side" : "top";
+    room.setPointerCapture(ev.pointerId); room.classList.add("dragging");
+  });
+  room.addEventListener("pointermove", (ev) => {
+    if (!drag) return;
+    const r = room.getBoundingClientRect(), s = room.width / r.width, L = layout();
+    const px = (ev.clientX - r.left) * s, py = (ev.clientY - r.top) * s;
+    const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+    state.occ.y = clamp(L.yInv(px), 0.30, 0.90);
+    if (drag === "side") state.occ.z = clamp(L.zInv(py) - VJ.PLATE / 2, 0.05, 0.36);
+    else state.occ.x = clamp(L.xInv(py) - VJ.PLATE / 2, 0.30, 0.70);
+    syncSliders(); renderRoom(); schedule("preview");
+  });
+  const endDrag = () => { if (drag) { drag = null; room.classList.remove("dragging"); schedule("room"); } };
+  room.addEventListener("pointerup", endDrag); room.addEventListener("pointercancel", endDrag);
+
+  function syncSliders() {
+    const o = state.occ;
+    $("oy").value = o.y; $("ox").value = o.x; $("oz").value = o.z;
+    $("oy-v").textContent = (o.y * 100).toFixed(1) + " cm";
+    $("ox-v").textContent = (o.x * 100).toFixed(1) + " cm";
+    $("oz-v").textContent = (o.z * 100).toFixed(1) + " cm";
+  }
+
+  // ----------------------------------------------------------------- photo
+  function blur(v) {                 // three passes of a 7-wide box blur, both axes
+    let a = Float64Array.from(v), b = new Float64Array(M);
+    for (let pass = 0; pass < 3; pass++) {
+      for (let r = 0; r < N; r++) for (let c = 0; c < N; c++) {
+        let s = 0, n = 0; for (let d = -3; d <= 3; d++) { const cc = c + d; if (cc >= 0 && cc < N) { s += a[r * N + cc]; n++; } }
+        b[r * N + c] = s / n;
+      }
+      for (let r = 0; r < N; r++) for (let c = 0; c < N; c++) {
+        let s = 0, n = 0; for (let d = -3; d <= 3; d++) { const rr = r + d; if (rr >= 0 && rr < N) { s += b[rr * N + c]; n++; } }
+        a[r * N + c] = s / n;
+      }
+    }
+    return a;
+  }
+  function renderPhoto() {
+    if (!state.photo) return;
+    const out = new Float64Array(M * 3);
+    if (!state.detail) {
+      let mx = 0; for (const ch of state.photo) for (const v of ch) mx = Math.max(mx, v);
+      for (let m = 0; m < M; m++) for (let c = 0; c < 3; c++) out[m * 3 + c] = state.photo[c][m] / mx;
+    } else {
+      const hp = state.photo.map(ch => { const b = blur(ch); return ch.map((v, m) => v - b[m]); });
+      let sd = 0; for (const ch of hp) for (const v of ch) sd += v * v; sd = Math.sqrt(sd / (3 * M));
+      for (let m = 0; m < M; m++) for (let c = 0; c < 3; c++) out[m * 3 + c] = 0.5 + hp[c][m] / (6 * sd);
+    }
+    drawImage($("photo"), out, N, N, v => v);
+  }
+
+  // ------------------------------------------------------------ pipeline
+  function rebuild(full) {
+    state.A = VJ.buildA(state.occ);
+    if (full) {
+      state.At = VJ.removeRoomLightA(state.A);
+      state.G = VJ.gram(state.At);
+      state.L = VJ.lmax(state.G);
+    }
+  }
+  function takePhoto() {
+    state.k = state.photons / state.white0;           // same camera exposure in every room
+    const { photo, sigma } = VJ.photograph(state.A, state.scene, state.k, state.photons, state.seed);
+    state.photo = photo; state.sigma = sigma;
+  }
+  function reconstruct() {
+    const x = new Float64Array(P * 3);
+    for (let c = 0; c < 3; c++) {
+      const xc = VJ.reconstructChannel(state.G, state.L, state.At, state.photo[c], state.k, state.lamRel, 150);
+      for (let p = 0; p < P; p++) x[p * 3 + c] = Math.min(1, xc[p]);
+    }
+    state.recon = x;
+    let mse = 0; for (let t = 0; t < P * 3; t++) mse += (x[t] - state.scene[t]) ** 2;
+    $("psnr").textContent = (10 * Math.log10(P * 3 / mse)).toFixed(1) + " dB";
+    drawImage($("recon"), x, COLS, ROWS, v => v);
+  }
+  function observable(G) {
+    const ev = VJ.eigvalsSym(G, P);
+    const sigma = state.sigma ? (state.sigma[0] + state.sigma[1] + state.sigma[2]) / 3 : 1;
+    return ev.filter(e => state.k * Math.sqrt(Math.max(e, 0)) >= sigma).length;
+  }
+  function renderLedger(nOn, nOff) {
+    if (nOn != null) { $("n-on").textContent = nOn + " / 432"; $("bar-on").style.width = (100 * nOn / 432).toFixed(1) + "%"; }
+    if (nOff != null) { $("n-off").textContent = nOff + " / 432"; $("bar-off").style.width = Math.max(0.6, 100 * nOff / 432).toFixed(1) + "%"; }
+  }
+
+  let timer = null, pending = new Set();
+  function schedule(kind) {
+    pending.add(kind);
+    $("status").textContent = "computing";
+    clearTimeout(timer);
+    timer = setTimeout(run, kind === "preview" ? 60 : 30);
+  }
+  function run() {
+    const job = pending; pending = new Set();
+    if (job.has("preview") && !job.has("room")) {          // while dragging: move the shadow live
+      rebuild(false); takePhoto(); renderPhoto();
+      $("status").textContent = "release to read back";
+      return;
+    }
+    if (job.has("room")) { rebuild(true); takePhoto(); renderPhoto(); }
+    else if (job.has("photo")) { takePhoto(); renderPhoto(); }
+    renderRoom();
+    setTimeout(() => {
+      reconstruct();
+      $("status").textContent = state.occ.on ? "read back" : "read back, no plate";
+      if (job.has("room") || job.has("photo")) setTimeout(() => {
+        const n = observable(state.G);
+        if (state.occ.on) renderLedger(n, null); else renderLedger(null, n);
+      }, 20);
+    }, 20);
+  }
+
+  // -------------------------------------------------------------- controls
+  document.querySelectorAll("[data-preset]").forEach(b => b.addEventListener("click", () => {
+    loadPreset(b.dataset.preset); renderScene(); schedule("photo");
+  }));
+  $("draw").addEventListener("click", () => {
+    state.draw = !state.draw; $("draw").setAttribute("aria-pressed", String(state.draw));
+    $("scene").style.cursor = state.draw ? "crosshair" : "";
+  });
+  $("clear").addEventListener("click", () => {
+    state.scene.fill(0); document.querySelectorAll("[data-preset]").forEach(b => b.setAttribute("aria-pressed", "false"));
+    state.draw = true; $("draw").setAttribute("aria-pressed", "true"); $("scene").style.cursor = "crosshair";
+    renderScene(); schedule("photo");
+  });
+  let painting = false;
+  const paint = (ev) => {
+    const r = $("scene").getBoundingClientRect();
+    const j = Math.floor((ev.clientX - r.left) / r.width * COLS), i = Math.floor((ev.clientY - r.top) / r.height * ROWS);
+    if (i < 0 || j < 0 || i >= ROWS || j >= COLS) return;
+    const p = i * COLS + j; state.scene[p * 3] = 1; state.scene[p * 3 + 1] = 0.95; state.scene[p * 3 + 2] = 0.85;
+    renderScene();
+  };
+  $("scene").addEventListener("pointerdown", (ev) => { if (!state.draw) return; painting = true; $("scene").setPointerCapture(ev.pointerId); paint(ev); });
+  $("scene").addEventListener("pointermove", (ev) => { if (painting) paint(ev); });
+  const stopPaint = () => { if (painting) { painting = false; schedule("photo"); } };
+  $("scene").addEventListener("pointerup", stopPaint); $("scene").addEventListener("pointercancel", stopPaint);
+  $("scene").style.touchAction = "none";
+
+  $("upload").addEventListener("change", (ev) => {
+    const f = ev.target.files && ev.target.files[0]; if (!f) return;
+    const img = new Image();
+    img.onload = () => {
+      const cv = document.createElement("canvas"); cv.width = COLS; cv.height = ROWS;
+      const g = cv.getContext("2d"), target = COLS / ROWS, ratio = img.width / img.height;
+      let sw = img.width, sh = img.height, sx = 0, sy = 0;
+      if (ratio > target) { sw = img.height * target; sx = (img.width - sw) / 2; } else { sh = img.width / target; sy = (img.height - sh) / 2; }
+      g.drawImage(img, sx, sy, sw, sh, 0, 0, COLS, ROWS);
+      const d = g.getImageData(0, 0, COLS, ROWS).data;
+      for (let p = 0; p < P; p++) for (let c = 0; c < 3; c++) state.scene[p * 3 + c] = d[p * 4 + c] / 255;
+      document.querySelectorAll("[data-preset]").forEach(b => b.setAttribute("aria-pressed", "false"));
+      URL.revokeObjectURL(img.src); renderScene(); schedule("photo");
+    };
+    img.src = URL.createObjectURL(f);
+  });
+
+  for (const [id, key] of [["oy", "y"], ["ox", "x"], ["oz", "z"]]) {
+    $(id).addEventListener("input", () => { state.occ[key] = parseFloat($(id).value); syncSliders(); renderRoom(); schedule("preview"); });
+    $(id).addEventListener("change", () => schedule("room"));
+  }
+  $("occ-on").addEventListener("change", () => {
+    state.occ.on = $("occ-on").checked;
+    ["oy", "ox", "oz"].forEach(id => $(id).disabled = !state.occ.on);
+    renderRoom(); schedule("room");
+  });
+  $("detail").addEventListener("change", () => { state.detail = $("detail").checked; renderPhoto(); });
+  const lightLabel = () => { $("light-v").textContent = "10^" + (+$("light").value).toFixed(2).replace(/\.?0+$/, "") + " e⁻"; };
+  $("light").addEventListener("input", () => { state.photons = Math.pow(10, +$("light").value); lightLabel(); schedule("photo"); });
+  const smoothLabel = () => { $("smooth-v").textContent = "10^" + (+$("smooth").value).toFixed(2).replace(/\.?0+$/, ""); };
+  $("smooth").addEventListener("input", () => { state.lamRel = Math.pow(10, +$("smooth").value); smoothLabel(); schedule("recon"); });
+
+  const mq = window.matchMedia("(prefers-color-scheme: dark)");
+  if (mq.addEventListener) mq.addEventListener("change", renderRoom);
+  new MutationObserver(renderRoom).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+  window.addEventListener("resize", () => renderRoom());
+
+  // ----------------------------------------------------------------- start
+  loadPreset("astronaut"); renderScene(); syncSliders(); lightLabel(); smoothLabel(); renderRoom();
+  $("status").textContent = "computing";
+  setTimeout(() => {                                   // let the page paint first
+    state.A0 = VJ.buildA({ on: false });
+    state.white0 = VJ.whitePeak(state.A0);
+    rebuild(true); takePhoto(); renderPhoto(); reconstruct();
+    $("status").textContent = "read back";
+    setTimeout(() => {
+      renderLedger(observable(state.G), null);
+      const At0 = VJ.removeRoomLightA(state.A0), G0 = VJ.gram(At0);
+      renderLedger(null, observable(G0));
+    }, 50);
+  }, 30);
+})();
+</script>

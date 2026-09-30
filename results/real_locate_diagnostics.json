@@ -1,0 +1,138 @@
+{
+ "bu": {
+  "published estimate": {
+   "corner": [
+    0.4733,
+    0.5661,
+    0.2072
+   ],
+   "objective": 95357868569.2045,
+   "misfit": 88129011275.7749,
+   "corr_with_truth": 0.636,
+   "objective_vs_published": 1.0
+  },
+  "tape measure": {
+   "corner": [
+    0.475,
+    0.57,
+    0.214
+   ],
+   "objective": 102904915360.43025,
+   "misfit": 94105741295.88489,
+   "corr_with_truth": 0.437,
+   "objective_vs_published": 1.0791
+  },
+  "2 cm left": {
+   "corner": [
+    0.4533,
+    0.5661,
+    0.2072
+   ],
+   "objective": 98150625295.26875,
+   "misfit": 91119381702.05165,
+   "corr_with_truth": 0.17,
+   "objective_vs_published": 1.0293
+  },
+  "2 cm right": {
+   "corner": [
+    0.4933,
+    0.5661,
+    0.2072
+   ],
+   "objective": 93927448315.54703,
+   "misfit": 87287965619.77116,
+   "corr_with_truth": 0.14,
+   "objective_vs_published": 0.985
+  },
+  "2 cm higher": {
+   "corner": [
+    0.4733,
+    0.5661,
+    0.2272
+   ],
+   "objective": 127755118888.45482,
+   "misfit": 117182009138.0567,
+   "corr_with_truth": 0.236,
+   "objective_vs_published": 1.3397
+  },
+  "3 cm nearer the wall": {
+   "corner": [
+    0.4733,
+    0.5961,
+    0.2072
+   ],
+   "objective": 105763864099.51283,
+   "misfit": 99292867004.09299,
+   "corr_with_truth": 0.19,
+   "objective_vs_published": 1.1091
+  }
+ },
+ "rgb": {
+  "published estimate": {
+   "corner": [
+    0.4693,
+    0.5629,
+    0.208
+   ],
+   "objective": 170096959760.73248,
+   "misfit": 161242242618.85815,
+   "corr_with_truth": 0.617,
+   "objective_vs_published": 1.0
+  },
+  "tape measure": {
+   "corner": [
+    0.475,
+    0.57,
+    0.214
+   ],
+   "objective": 188310914245.03876,
+   "misfit": 175730515334.2844,
+   "corr_with_truth": 0.41,
+   "objective_vs_published": 1.1071
+  },
+  "2 cm left": {
+   "corner": [
+    0.4493,
+    0.5629,
+    0.208
+   ],
+   "objective": 172801898029.65964,
+   "misfit": 163880756352.75293,
+   "corr_with_truth": 0.122,
+   "objective_vs_published": 1.0159
+  },
+  "2 cm right": {
+   "corner": [
+    0.4893,
+    0.5629,
+    0.208
+   ],
+   "objective": 167719522673.6806,
+   "misfit": 158667930410.93622,
+   "corr_with_truth": 0.162,
+   "objective_vs_published": 0.986
+  },
+  "2 cm higher": {
+   "corner": [
+    0.4693,
+    0.5629,
+    0.228
+   ],
+   "objective": 229958261710.9404,
+   "misfit": 214204451951.0824,
+   "corr_with_truth": 0.323,
+   "objective_vs_published": 1.3519
+  },
+  "3 cm nearer the wall": {
+   "corner": [
+    0.4693,
+    0.5929,
+    0.208
+   ],
+   "objective": 188035481488.99622,
+   "misfit": 179351306147.51483,
+   "corr_with_truth": 0.209,
+   "objective_vs_published": 1.1055
+  }
+ }
+}

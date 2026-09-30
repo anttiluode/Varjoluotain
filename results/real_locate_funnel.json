@@ -1,0 +1,55 @@
+{
+ "note": "scripts/real_data.py --locate on the whole search box; stopped after two scenes because both converge to the same wrong corner",
+ "scenes": {
+  "bu": {
+   "published_occluder": [
+    0.4733,
+    0.5661,
+    0.2072
+   ],
+   "located_occluder": [
+    0.4136,
+    0.4715,
+    0.2187
+   ],
+   "located_minus_published_mm": [
+    -59.7,
+    -94.6,
+    11.5
+   ],
+   "located_minus_tape_mm": [
+    -61.4,
+    -98.5,
+    4.7
+   ],
+   "corr_published_occluder": 0.643,
+   "corr_located_occluder": 0.186,
+   "locate_seconds": 332.2
+  },
+  "mushroom": {
+   "published_occluder": [
+    0.4583,
+    0.5408,
+    0.2026
+   ],
+   "located_occluder": [
+    0.4075,
+    0.471,
+    0.2223
+   ],
+   "located_minus_published_mm": [
+    -50.8,
+    -69.8,
+    19.7
+   ],
+   "located_minus_tape_mm": [
+    -67.5,
+    -99.0,
+    8.3
+   ],
+   "corr_published_occluder": 0.382,
+   "corr_located_occluder": 0.205,
+   "locate_seconds": 991.3
+  }
+ }
+}
