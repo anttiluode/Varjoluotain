@@ -189,7 +189,7 @@ tests/                     forward model, solver and funnel checks; the browser 
 
 ## Credits
 
-Method, geometry and real photos: C. Saunders, J. Murray-Bruce and V. K. Goyal, [Computational periscopy with an ordinary digital camera](https://www.nature.com/articles/s41586-019-0868-6), Nature 565, 472–475 (2019), and their [code and data](https://github.com/Computational-Periscopy/Ordinary-Camera). This repository is an independent implementation. It includes none of their code or data; the scripts read a local clone.
+Method, geometry and real photos: C. Saunders, J. Murray-Bruce and V. K. Goyal, [Computational periscopy with an ordinary digital camera](https://www.nature.com/articles/s41586-018-0868-6), Nature 565, 472–475 (2019), and their [code and data](https://github.com/Computational-Periscopy/Ordinary-Camera). This repository is an independent implementation. It includes none of their code or data; the scripts read a local clone.
 
 Test pictures from scikit-image's sample data: astronaut (NASA) and rocket (SpaceX), public domain; coffee (Rachel Michetti) and cat (Stefan van der Walt), CC0; colour wheel from the same collection. "VARJO" and the colour bars are generated.
 
