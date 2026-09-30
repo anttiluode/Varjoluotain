@@ -1,5 +1,9 @@
 # Varjoluotain
 
+[Try the web page!](https://anttiluode.github.io/Varjoluotain/site/index.html)
+
+![pic](pic.png)
+
 *Varjo* is Finnish for shadow, *luotain* for a sounding probe.
 
 A camera photographs a blank wall. Around the corner, out of its view, a screen shows a picture. Halfway between the screen and the wall stands a 7.5 cm plate, and its soft shadow falls on the wall. From that one photo, this repository reads the picture back.
